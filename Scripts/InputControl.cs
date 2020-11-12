@@ -30,7 +30,6 @@ public class InputControl : MonoBehaviour
                 if(Mathf.Abs(mousePosition.x - button.transform.position.x) < (button.GetComponent<SpriteRenderer>().bounds.size.x/2f)){
                     if(Mathf.Abs(mousePosition.y - button.transform.position.y) < (button.GetComponent<SpriteRenderer>().bounds.size.y/2f)){
                         // Hit button
-                        Debug.Log(button);
                         button.GetComponent<SpriteButton>().onClick();
                     }
                 }   

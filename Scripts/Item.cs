@@ -8,12 +8,11 @@ using System.IO;
 public class Item : MonoBehaviour
 {
     public ItemData data;
-
+    public int amount = 1;
     // Start is called before the first frame update
     void Start()
     {
-        //SaveIntoJson();
-        loadItem(1);
+        loadItem(data.id);
     }
 
     // Update is called once per frame

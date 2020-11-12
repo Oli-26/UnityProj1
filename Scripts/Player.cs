@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     float movementSpeed = 1f;
-    float movementHiddenMultiplier = 0.001f;
+    float movementHiddenMultiplier = 0.003f;
 
     // Start is called before the first frame update
     void Start()
@@ -68,11 +68,16 @@ public class Player : MonoBehaviour
 
     bool checkMovement(Vector3 newPosition){
         GameObject[] solids = GameObject.FindGameObjectsWithTag("SolidSquare");
-        
+        GameObject floor = GameObject.FindGameObjectWithTag("Floor");
+        if(Mathf.Abs(newPosition.x - floor.transform.position.x) > (floor.GetComponent<SpriteRenderer>().bounds.size.x/2f)){
+            return false;        
+        }
+        if(Mathf.Abs(newPosition.y - floor.transform.position.y) > (floor.GetComponent<SpriteRenderer>().bounds.size.y/2f - GetComponent<SpriteRenderer>().bounds.size.y/2f)){
+            return false;
+        }
         foreach(GameObject solid in solids){
-            
             if(Mathf.Abs(newPosition.x - solid.transform.position.x) < (solid.GetComponent<SpriteRenderer>().bounds.size.x/2f)){
-                if(Mathf.Abs(newPosition.y - solid.transform.position.y) < (solid.GetComponent<SpriteRenderer>().bounds.size.y/2f)){
+                if(Mathf.Abs(newPosition.y - solid.transform.position.y) < (solid.GetComponent<SpriteRenderer>().bounds.size.y/2f + GetComponent<SpriteRenderer>().bounds.size.y/2f)){
                     return false;
                 }
             }
