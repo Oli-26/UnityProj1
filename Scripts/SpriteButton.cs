@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpriteButton : MonoBehaviour
 {
     public GameObject target;
+    public int generalValue = 0;
     int animationFrames = 0;
     float storeXScale = 0;
     float storeYScale = 0;
@@ -18,17 +19,28 @@ public class SpriteButton : MonoBehaviour
         storeYScale = transform.localScale.y;
     }
 
-    public void onClick(){
+    public void onClick(int clickType){
         startAnimation();
 
-        if(type == typeButton.SideButton){
+        if(type == typeButton.SideButton &&  clickType == 0){
             GetComponent<SpriteRenderer>().flipX = !GetComponent<SpriteRenderer>().flipX;
             if(toggle){
-                target.transform.position += new Vector3(-1.7f,0f,0f);
+                target.transform.position += new Vector3(-2.1f,0f,0f);
             }else{
-                target.transform.position += new Vector3(1.7f,0f,0f); 
+                target.transform.position += new Vector3(2.1f,0f,0f); 
             }
             toggle = !toggle;
+        }
+        if(type == typeButton.Invent && clickType == 1){
+            GameObject player = GameObject.FindGameObjectWithTag("Game").GetComponent<Game>().getPlayer();
+            GameObject item;
+            bool success;
+            item = player.GetComponent<Invent>().removeItem(generalValue, out success);
+            Debug.Log("dropping item");
+            if(success){
+                Debug.Log("success");
+            }
+            
         }
 
     }   

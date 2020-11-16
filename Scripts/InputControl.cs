@@ -30,7 +30,7 @@ public class InputControl : MonoBehaviour
                 if(Mathf.Abs(mousePosition.x - button.transform.position.x) < (button.GetComponent<SpriteRenderer>().bounds.size.x/2f)){
                     if(Mathf.Abs(mousePosition.y - button.transform.position.y) < (button.GetComponent<SpriteRenderer>().bounds.size.y/2f)){
                         // Hit button
-                        button.GetComponent<SpriteButton>().onClick();
+                        button.GetComponent<SpriteButton>().onClick(0);
                     }
                 }   
             }
@@ -39,6 +39,17 @@ public class InputControl : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1)){
             // RIGHT
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            GameObject[] buttons = GameObject.FindGameObjectsWithTag("Button");
+            
+            foreach(GameObject button in buttons){
+                if(Mathf.Abs(mousePosition.x - button.transform.position.x) < (button.GetComponent<SpriteRenderer>().bounds.size.x/2f)){
+                    if(Mathf.Abs(mousePosition.y - button.transform.position.y) < (button.GetComponent<SpriteRenderer>().bounds.size.y/2f)){
+                        // Hit button
+                        button.GetComponent<SpriteButton>().onClick(1);
+                    }
+                }   
+            }
         }
 
     }

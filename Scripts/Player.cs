@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    float movementSpeed = 1f;
+    //Hidden Variables
     float movementHiddenMultiplier = 0.003f;
+
+    //Player Stats
+    float movementSpeed = 1f;
+    
+    //Player owned
+    public int coins = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -84,5 +91,30 @@ public class Player : MonoBehaviour
             
         }
         return true;
+    }
+
+
+    public void OnCollisionEnter2D(Collision2D col){
+        if(col.gameObject.tag == "Item"){
+            pickUpItem(col.gameObject);
+        }
+
+    }
+
+    void pickUpItem(GameObject item){
+        if(item.GetComponent<Item>().data.itemName == "coin"){
+            coins += item.GetComponent<Item>().amount;
+            Destroy(item);
+        }
+        if(item.GetComponent<Item>().data.type == "material"){
+            int freeSlot = GetComponent<Invent>().fillFreeSlot(item);
+            if(freeSlot == 0){
+                item.transform.position = new Vector3(-100f, -100f, 0f);
+            }
+            if(freeSlot == 2){
+                Destroy(item);
+            }
+        }
+        
     }
 }
