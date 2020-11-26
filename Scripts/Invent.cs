@@ -27,7 +27,7 @@ public class Invent : MonoBehaviour
         guiItemAmount[n].GetComponent<TextMeshPro>().text = item.GetComponent<Item>().amount+"";
     }
 
-    public GameObject removeItem(int n, out bool success){
+    public void removeItem(int n){
         if(filledList[n]){
             GameObject tempItem = itemList[n];
             tempItem.transform.position = gameObject.transform.position+ new Vector3(0.5f,0f,0f);
@@ -36,11 +36,6 @@ public class Invent : MonoBehaviour
             itemList[n] = null;
             guiItemList[n].GetComponent<SpriteRenderer>().sprite = null;
             guiItemAmount[n].SetActive(false);
-            success = true;
-            return tempItem;
-        }else{
-            success = false;
-            return null;
         }
     }
 
@@ -69,7 +64,7 @@ public class Invent : MonoBehaviour
         if(i > 15){
             return 1;
         }
-        Debug.Log(i);
+        //ebug.Log(i);
         setItem(i,item);
         return 0;
         

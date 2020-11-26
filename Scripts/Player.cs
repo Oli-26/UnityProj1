@@ -75,28 +75,41 @@ public class Player : MonoBehaviour
 
     bool checkMovement(Vector3 newPosition){
         GameObject[] solids = GameObject.FindGameObjectsWithTag("SolidSquare");
-        GameObject floor = GameObject.FindGameObjectWithTag("Floor");
-        if(Mathf.Abs(newPosition.x - floor.transform.position.x) > (floor.GetComponent<SpriteRenderer>().bounds.size.x/2f)){
-            return false;        
-        }
-        if(Mathf.Abs(newPosition.y - floor.transform.position.y) > (floor.GetComponent<SpriteRenderer>().bounds.size.y/2f - GetComponent<SpriteRenderer>().bounds.size.y/2f)){
-            return false;
-        }
+        GameObject[] floors = GameObject.FindGameObjectsWithTag("Floor");
+
+       
         foreach(GameObject solid in solids){
             if(Mathf.Abs(newPosition.x - solid.transform.position.x) < (solid.GetComponent<SpriteRenderer>().bounds.size.x/2f)){
                 if(Mathf.Abs(newPosition.y - solid.transform.position.y) < (solid.GetComponent<SpriteRenderer>().bounds.size.y/2f + GetComponent<SpriteRenderer>().bounds.size.y/2f)){
                     return false;
                 }
-            }
-            
+            } 
         }
-        return true;
+
+        foreach(GameObject floor in floors){
+            if(Mathf.Abs(newPosition.x - floor.transform.position.x) < (floor.GetComponent<SpriteRenderer>().bounds.size.x/2f)){
+                 if(Mathf.Abs(newPosition.y - floor.transform.position.y) < (floor.GetComponent<SpriteRenderer>().bounds.size.y/2f - GetComponent<SpriteRenderer>().bounds.size.y/2f)){
+                    return true;
+                 }      
+            }
+        }
+
+        return false;
     }
 
 
     public void OnCollisionEnter2D(Collision2D col){
         if(col.gameObject.tag == "Item"){
             pickUpItem(col.gameObject);
+        }
+        if(col.gameObject.tag == "Stairs"){
+            GameObject spawn = GameObject.FindGameObjectWithTag("Spawn");
+            GameObject.FindGameObjectWithTag("Game").GetComponent<Game>().spawnNextRoom();
+            GameObject.FindGameObjectWithTag("Game").GetComponent<Game>().spawnNextRoom();
+            gameObject.transform.position = new Vector3(spawn.transform.position.x, spawn.transform.position.y, 0);
+            Camera.main.transform.position = new Vector3(spawn.transform.position.x, spawn.transform.position.y, -10f);
+
+            Destroy(spawn);
         }
 
     }

@@ -1,18 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SpriteButton : MonoBehaviour
 {
-    public GameObject target;
-    public int generalValue = 0;
     int animationFrames = 0;
     float storeXScale = 0;
     float storeYScale = 0;
-    bool toggle = false;
 
-    public enum typeButton {Invent, SideButton};
-    public typeButton type; 
+
+    public UnityEvent leftButtonAction;
+    public UnityEvent rightButtonAction;
+
     public int animationType = 1;
     void Start(){
         storeXScale = transform.localScale.x;
@@ -21,26 +21,18 @@ public class SpriteButton : MonoBehaviour
 
     public void onClick(int clickType){
         startAnimation();
+        
 
-        if(type == typeButton.SideButton &&  clickType == 0){
-            GetComponent<SpriteRenderer>().flipX = !GetComponent<SpriteRenderer>().flipX;
-            if(toggle){
-                target.transform.position += new Vector3(-2.1f,0f,0f);
-            }else{
-                target.transform.position += new Vector3(2.1f,0f,0f); 
-            }
-            toggle = !toggle;
-        }
-        if(type == typeButton.Invent && clickType == 1){
-            GameObject player = GameObject.FindGameObjectWithTag("Game").GetComponent<Game>().getPlayer();
-            GameObject item;
-            bool success;
-            item = player.GetComponent<Invent>().removeItem(generalValue, out success);
-            Debug.Log("dropping item");
-            if(success){
-                Debug.Log("success");
-            }
+
+        if(clickType == 1){
+            //GameObject player = GameObject.FindGameObjectWithTag("Game").GetComponent<Game>().getPlayer();
+            //GameObject item;
+            //bool success;
+           // item = player.GetComponent<Invent>().removeItem(generalValue, out success);
+            leftButtonAction.Invoke();
             
+        }else{
+            leftButtonAction.Invoke();
         }
 
     }   
